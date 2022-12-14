@@ -17,6 +17,21 @@ repeat3:
     jp nz, repeat1
     ret
 
+waitalittle:
+    ld c, 10
+    ld b, 7
+repeat11:
+repeat22:
+    WaitVBlank___:
+    ld a, [rLY]
+    cp 144
+    jp nz, WaitVBlank___
+    dec c
+    jp nz, repeat22
+    jp nz, repeat11
+    ret
+
+
 ; arguments
 ; hl --- memory addr that start to clear
 ;        the first element of one line
@@ -65,7 +80,7 @@ CopyTilemap1:
     ret
 
 display_scene2:
-    call close_LCD
+    ; call close_LCD
     ld de, Scene2
 	ld hl, $9800
 	ld bc, Scene2End - Scene2
@@ -77,11 +92,11 @@ CopyTilemap2:
     ld a, b
     or a, c
     jp nz, CopyTilemap2
-    call open_LCD
+    ; call open_LCD
     ret
 
 display_scene3:
-    call close_LCD 
+    ; call close_LCD 
     ld de, Scene3
 	ld hl, $9800
 	ld bc, Scene3End - Scene3
@@ -94,5 +109,5 @@ display_scene3:
     ld a, b
     or a, c
     jp nz, CopyTilemap3
-    call open_LCD
+    ; call open_LCD
     ret

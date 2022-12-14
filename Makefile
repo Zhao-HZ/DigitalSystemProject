@@ -6,4 +6,4 @@ all:
 	@cp project.gb ~/desk/bgbw64
 
 clean:
-	rm ./src/*.o ./src/*.gb
+	rm ./src/*.o ./*.gb
