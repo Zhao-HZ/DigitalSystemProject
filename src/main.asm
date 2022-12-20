@@ -11,7 +11,8 @@ SECTION "Header", ROM0[$100]
 EntryPoint:
     ld a, 0
     ld [rNR52], a
-
+    
+    ld c, 5
 WaitVBlank:
     ld a, [rLY] 
     cp 144
@@ -44,14 +45,15 @@ CopyTiles:
     inc hl 
     ld [hl], 0
     inc hl 
+
     ld b, 38 * 4
     ld a, 0
-
 OAM_clean_loop:
     ld [hl], a
     inc hl
     dec b
     jp nz, OAM_clean_loop
+    
     ld de, Objs
     ld hl, $8000
     ld bc, ObjsEnd - Objs
@@ -102,6 +104,7 @@ repeat_scroll:
 
     call waitsometime
 	call waitsometime
+	call waitsometime
 ; End Scrolling	
 
     ld hl, $9820
@@ -119,18 +122,17 @@ repeat_scroll:
     set 1, a
     ld [rLCDC], a
 
+
     call close_LCD
     call display_scene2
     call open_LCD
 
+    ; Move the bicycle
+    ; temoporary
     ld hl, _OAMRAM 
     inc hl
     push hl
 move_right:
-; wait1:
-    ; ld a, [rLY]
-    ; cp 144
-    ; jp nz, wait1
     call waitalittle
     ld a, [hl]
     inc a
@@ -139,6 +141,7 @@ move_right:
     jp nz, move_right
 
     pop hl
+
 move_left:
 	call waitalittle
     ld a, [hl]
@@ -148,7 +151,7 @@ move_left:
     jp nz, move_left
 
     dec hl
-    ld c, 2
+    ld c, 1
     ld hl, _OAMRAM 
 move_up:
     push hl
@@ -164,16 +167,91 @@ move_up:
     dec c
     cp 0
     jp nz, move_up
+    ; temoporary
 
     call close_LCD
     ; Turn off the Object
     ld a, [rLCDC]
     res 1, a 
     ld [rLCDC], a
-    call display_scene3    
+
+    call close_LCD
+
+    ld hl, _OAMRAM
+    ; Battery
+    ld [hl], 40 ; Y (not to change)
+    inc hl 
+    ld [hl], 45 ; X
+    inc hl
+    ld [hl], 1
+    inc hl
+    ld [hl], 0
+    inc hl
+    ; Bone
+    ld [hl], 40 ; Y
+    inc hl 
+    ld [hl], 73 ; X
+    inc hl
+    ld [hl], 2
+    inc hl
+    ld [hl], 0
+    inc hl
+    ; Kernel
+    ld [hl], 40 ; Y
+    inc hl 
+    ld [hl], 105 ; X
+    inc hl
+    ld [hl], 3
+    inc hl
+    ld [hl], 0
+
+
+    call display_scene3
+    call open_LCD
+    ld a, [rLCDC]
+    set 1, a
+    ld [rLCDC], a
+
+    ld hl, _OAMRAM
+    ld c, 0
+jump_down:
+    push hl
+    call waitalittle
+    ld b, [hl]
+    inc b
+    ld [hl], b
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    ld b, [hl]
+    inc b
+    ld [hl], b 
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    ld b, [hl]
+    inc b
+    ld [hl], b
+    ld a, b
+    cp 100
+    pop hl
+    dec c
+    cp 0
+    jp nz, jump_down
+
+
+    call waitsometime
+    call waitsometime
+    call waitsometime
+
+    call close_LCD
+    ld a, [rLCDC]
+    res 1, a
+    ld [rLCDC], a 
+    call display_scene5    
     call open_LCD
 
 Done:
 	jp Done	
-		
-	

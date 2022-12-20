@@ -80,7 +80,6 @@ CopyTilemap1:
     ret
 
 display_scene2:
-    ; call close_LCD
     ld de, Scene2
 	ld hl, $9800
 	ld bc, Scene2End - Scene2
@@ -92,16 +91,13 @@ CopyTilemap2:
     ld a, b
     or a, c
     jp nz, CopyTilemap2
-    ; call open_LCD
     ret
 
 display_scene3:
-    ; call close_LCD 
     ld de, Scene3
 	ld hl, $9800
 	ld bc, Scene3End - Scene3
-
-    CopyTilemap3:
+CopyTilemap3:
 	ld a, [de]
     ld [hli], a
     inc de
@@ -109,5 +105,19 @@ display_scene3:
     ld a, b
     or a, c
     jp nz, CopyTilemap3
-    ; call open_LCD
+    ret
+
+display_scene5:
+    ld de, Scene5
+	ld hl, $9800
+	ld bc, Scene5End - Scene5
+
+    CopyTilemap5:
+	ld a, [de]
+    ld [hli], a
+    inc de
+    dec bc
+    ld a, b
+    or a, c
+    jp nz, CopyTilemap5
     ret
