@@ -124,6 +124,39 @@ repeat_scroll:
 
 
     call close_LCD
+; ; Clear aLL of the tiles bellow
+;     ld hl, $9B28
+;     ld a, 0
+;     ld [hli], a
+;     ld [hl], a
+    
+;     ld hl, $9B60
+;     ld c, 0
+; clear_line1:
+;     ld a, 0
+;     ld [hli], a
+;     inc c
+;     cp $F
+;     jp nz, clear_line1
+
+;     ld hl, $9B80
+;     ld c, 0
+; clear_line2:
+;     ld a, 0
+;     ld [hli], a
+;     inc c
+;     cp $F
+;     jp nz, clear_line2
+
+;     ld hl, $9BA0
+;     ld c, 0
+; clear_line3:
+;     ld a, 0
+;     ld [hli], a
+;     inc c
+;     cp $F
+;     jp nz, clear_line3
+; End clear
     call display_scene2
     call open_LCD
 
@@ -241,6 +274,14 @@ jump_down:
     cp 0
     jp nz, jump_down
 
+
+    call waitsometime
+    call waitsometime
+    call waitsometime
+
+    call close_LCD
+    call display_scene4
+    call open_LCD
 
     call waitsometime
     call waitsometime

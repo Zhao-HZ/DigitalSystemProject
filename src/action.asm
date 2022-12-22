@@ -107,6 +107,20 @@ CopyTilemap3:
     jp nz, CopyTilemap3
     ret
 
+display_scene4:
+    ld de, Scene3
+	ld hl, $9800
+	ld bc, Scene4End - Scene4
+CopyTilemap4:
+	ld a, [de]
+    ld [hli], a
+    inc de
+    dec bc
+    ld a, b
+    or a, c
+    jp nz, CopyTilemap4
+    ret
+
 display_scene5:
     ld de, Scene5
 	ld hl, $9800
